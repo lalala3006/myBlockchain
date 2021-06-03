@@ -1,0 +1,2 @@
+[INFO]: 2021/06/03 16:15:47 startNode.go:20:StartNode: [*] 监听IP地址: 192.168.1.109 端口号: 9002
+[INFO]: 2021/06/03 16:15:47 startNode.go:44:StartNode: [*] 你的P2P地址信息: /ip4/192.168.1.109/tcp/9002/p2p/Qmf5TzAnnSsfFx6V54FTue9WyFCaGbcyG3ioAeurqAegb5
