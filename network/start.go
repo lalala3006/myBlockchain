@@ -13,3 +13,19 @@ var (
 	localHost        host.Host
 	localAddr        string
 )
+
+//发送数据的头部多少位为命令
+const prefixCMDLength = 12
+
+type command string
+
+//网络通讯互相发送的命令
+const (
+	//cVersion     command = "version"
+	//cGetHash     command = "getHash"
+	//cHashMap     command = "hashMap"
+	//cGetBlock    command = "getBlock"
+	//cBlock       command = "block"
+	//cTransaction command = "transaction"
+	cMyError command = "myError"
+)

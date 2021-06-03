@@ -10,10 +10,15 @@ import (
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/multiformats/go-multiaddr"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 var peerPool = make(map[string]peer.AddrInfo)
 var ctx = context.Background()
+var send = Send{}
 
 //启动本地节点
 func StartNode(clier Clier) {
@@ -54,6 +59,8 @@ func StartNode(clier Clier) {
 	go clier.ReceiveCMD()
 
 	fmt.Println("本地网络节点已启动,详细信息请查看log日志!")
+
+	signalHandle()
 }
 
 //启动mdns寻找p2p网络 并等节点连接
@@ -82,8 +89,17 @@ func monitorP2PNodes() {
 			log.Info("-------------------检测到网络中P2P节点变动,当前网络中已不存在其他P2P节点-------------------------")
 			currentPeerPoolNum = peerPoolNum
 		}
-
-
-		//time.Sleep(time.Second)
+		time.Sleep(time.Second)
 	}
+}
+
+//节点退出信号处理
+func signalHandle() {
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGPIPE)
+	<-sigs
+	send.SendSignOutToPeers()
+	fmt.Println("本地节点已退出")
+	time.Sleep(time.Second)
+	os.Exit(0)
 }

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	log "github.com/corgi-kx/logcustom"
+	"myBlockchain/network"
 	"os"
 	"strings"
 )
@@ -26,6 +27,7 @@ func printUsage() {
 	fmt.Println("----------------------------------------------------------------------------- ")
 	fmt.Println("Usage:")
 	fmt.Println("\thelp                                              打印命令行说明")
+	fmt.Println("\tquit                                              退出网络")
 	fmt.Println("\ttest                                              测试")
 	fmt.Println("------------------------------------------------------------------------------")
 }
@@ -51,6 +53,9 @@ func (cli Cli) userCmdHandle(data string) {
 	switch data {
 	case "help":
 		printUsage()
+	case "quit":
+		network.Send{}.SendSignOutToPeers()
+		os.Exit(0)
 	case "test":
 		log.Info("测试向log文件中添加信息")
 	default:
