@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/Bowery/prompt v0.0.0-20190916142128-fa8279994f75 // indirect
 	github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6 // indirect
+	github.com/boltdb/bolt v1.3.1 // indirect
 	github.com/coreos/go-etcd v2.0.0+incompatible // indirect
 	github.com/corgi-kx/logcustom v0.0.0-20191226094333-f56d55ec7426 // indirect
 	github.com/dchest/safefile v0.0.0-20151022103144-855e8d98f185 // indirect

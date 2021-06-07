@@ -4,12 +4,14 @@ import (
 	"fmt"
 	log "github.com/corgi-kx/logcustom"
 	"github.com/spf13/viper"
+	"myBlockchain/block"
 	"myBlockchain/cli"
+	"myBlockchain/database"
 	"myBlockchain/network"
 	"os"
 )
 
-func init()  {
+func init() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
@@ -22,11 +24,16 @@ func init()  {
 	listenPort := viper.GetString("network.listen_port")
 	rendezvousString := viper.GetString("network.rendezvous_string")
 	protocolID := viper.GetString("network.protocol_id")
+	chineseMnwordPath := viper.GetString("blockchain.chinese_mnemonic_path")
 
 	network.ListenHost = listenHost
 	network.RendezvousString = rendezvousString
 	network.ProtocolID = protocolID
 	network.ListenPort = listenPort
+
+	database.ListenPort = listenPort
+	block.ListenPort = listenPort
+	block.ChineseMnwordPath = chineseMnwordPath
 
 	//将日志输出到指定文件
 	file, err := os.OpenFile(fmt.Sprintf("%slog%s.txt", logPath, listenPort), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
@@ -37,7 +44,7 @@ func init()  {
 
 }
 
-func main()  {
+func main() {
 	c := cli.New()
 	c.Run()
 }
