@@ -41,5 +41,5 @@ func handleMyError(content []byte) {
 	e.deserialize(content)
 	log.Warn(e.Error)
 	peer := buildPeerInfoByAddr(e.Addrfrom)
-	delete(peerPool, fmt.Sprint(peer.ID))
+	delete(PeerPool, fmt.Sprint(peer.ID))
 }

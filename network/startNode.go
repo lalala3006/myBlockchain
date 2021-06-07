@@ -1,13 +1,11 @@
 package network
 
 import (
-	"context"
 	"crypto/rand"
 	"fmt"
 	log "github.com/corgi-kx/logcustom"
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/multiformats/go-multiaddr"
 	"os"
@@ -15,10 +13,6 @@ import (
 	"syscall"
 	"time"
 )
-
-var peerPool = make(map[string]peer.AddrInfo)
-var ctx = context.Background()
-var send = Send{}
 
 //启动本地节点
 func StartNode(clier Clier) {
@@ -69,7 +63,7 @@ func findP2PPeer() {
 	for {
 		peer := <-peerChan // will block untill we discover a peer
 		//将发现的节点加入节点池
-		peerPool[fmt.Sprint(peer.ID)] = peer
+		PeerPool[fmt.Sprint(peer.ID)] = peer
 	}
 }
 
@@ -77,10 +71,10 @@ func findP2PPeer() {
 func monitorP2PNodes() {
 	currentPeerPoolNum := 0
 	for {
-		peerPoolNum := len(peerPool)
+		peerPoolNum := len(PeerPool)
 		if peerPoolNum != currentPeerPoolNum && peerPoolNum != 0 {
 			log.Info("----------------------检测到网络中P2P节点变动,当前节点池存在的节点------------------")
-			for _, v := range peerPool {
+			for _, v := range PeerPool {
 				log.Info("|   ", v, "   |")
 			}
 			log.Info("----------------------------------------------------------------------------------")
@@ -89,7 +83,7 @@ func monitorP2PNodes() {
 			log.Info("-------------------检测到网络中P2P节点变动,当前网络中已不存在其他P2P节点-------------------------")
 			currentPeerPoolNum = peerPoolNum
 		}
-		time.Sleep(time.Second)
+		//time.Sleep(time.Second)
 	}
 }
 

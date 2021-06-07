@@ -7,6 +7,7 @@ import (
 	"myBlockchain/network"
 	"os"
 	"strings"
+	"time"
 )
 
 type Cli struct {
@@ -55,6 +56,8 @@ func (cli Cli) userCmdHandle(data string) {
 		printUsage()
 	case "quit":
 		network.Send{}.SendSignOutToPeers()
+		fmt.Println("本地节点已退出")
+		time.Sleep(time.Second)
 		os.Exit(0)
 	case "test":
 		log.Info("测试向log文件中添加信息")

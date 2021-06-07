@@ -15,7 +15,7 @@ func (s Send) SendSignOutToPeers() {
 	ss := "节点:" + localAddr + "已退出网络"
 	m := myerror{ss, localAddr}
 	data := jointMessage(cMyError, m.serialize())
-	for _, v := range peerPool {
+	for _, v := range PeerPool {
 		s.SendMessage(v, data)
 	}
 }

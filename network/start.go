@@ -1,7 +1,9 @@
 package network
 
 import (
+	"context"
 	"github.com/libp2p/go-libp2p-core/host"
+	"github.com/libp2p/go-libp2p-core/peer"
 )
 
 //p2p相关,程序启动时,会被配置文件所替换
@@ -14,12 +16,16 @@ var (
 	localAddr        string
 )
 
+var PeerPool = make(map[string]peer.AddrInfo)
+var ctx = context.Background()
+var send = Send{}
+
 //发送数据的头部多少位为命令
 const prefixCMDLength = 12
 
+//网络通讯互相发送的命令
 type command string
 
-//网络通讯互相发送的命令
 const (
 	//cVersion     command = "version"
 	//cGetHash     command = "getHash"
