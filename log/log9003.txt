@@ -1,0 +1,13 @@
+[34m[INFO]: 2021/06/08 13:10:43 startNode.go:20:StartNode: [*] 监听IP地址: 192.168.8.129 端口号: 9003[0m
+[34m[INFO]: 2021/06/08 13:10:43 startNode.go:44:StartNode: [*] 你的P2P地址信息: /ip4/192.168.8.129/tcp/9003/p2p/QmbuEbEiSoqri6ELZedDPpnoGjN8yhrqFZzTGgtZ9gBtby[0m
+[32m[TRACE]: 2021/06/08 13:10:52 handle.go:19:handleStream: 本节点已接收到命令：version[0m
+[34m[INFO]: 2021/06/08 13:10:53 startNode.go:79:monitorP2PNodes: ----------------------检测到网络中P2P节点变动,当前节点池存在的节点------------------[0m
+[34m[INFO]: 2021/06/08 13:10:53 startNode.go:81:monitorP2PNodes: |   {QmdhBepT6WWNvGPnTVVmdj9mrQypGcYpPwFB7B8FxMMgkC: [/ip4/192.168.8.129/tcp/9002]}   |[0m
+[34m[INFO]: 2021/06/08 13:10:53 startNode.go:83:monitorP2PNodes: ----------------------------------------------------------------------------------[0m
+[36m[DEBUG]: 2021/06/08 13:10:54 send.go:53:SendMessage: send cmd:version to peer:{QmdhBepT6WWNvGPnTVVmdj9mrQypGcYpPwFB7B8FxMMgkC: [/ip4/192.168.8.129/tcp/9002]}[0m
+[32m[TRACE]: 2021/06/08 13:10:54 send.go:64:SendVersionToPeers: version信息发送完毕...[0m
+[34m[INFO]: 2021/06/08 13:11:38 startNode.go:79:monitorP2PNodes: ----------------------检测到网络中P2P节点变动,当前节点池存在的节点------------------[0m
+[34m[INFO]: 2021/06/08 13:11:38 startNode.go:81:monitorP2PNodes: |   {QmPY6J1x7jYSBrbthfbny727895YcbLUDieFDJnycvTAk9: [/ip4/192.168.8.129/tcp/9001]}   |[0m
+[34m[INFO]: 2021/06/08 13:11:38 startNode.go:81:monitorP2PNodes: |   {QmdhBepT6WWNvGPnTVVmdj9mrQypGcYpPwFB7B8FxMMgkC: [/ip4/192.168.8.129/tcp/9002]}   |[0m
+[34m[INFO]: 2021/06/08 13:11:38 startNode.go:83:monitorP2PNodes: ----------------------------------------------------------------------------------[0m
+[32m[TRACE]: 2021/06/08 13:11:39 handle.go:19:handleStream: 本节点已接收到命令：version[0m
