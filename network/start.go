@@ -23,11 +23,14 @@ var send = Send{}
 //发送数据的头部多少位为命令
 const prefixCMDLength = 12
 
+//版本信息 默认0
+const versionInfo = byte(0x00)
+
 //网络通讯互相发送的命令
 type command string
 
 const (
-	//cVersion     command = "version"
+	cVersion command = "version"
 	//cGetHash     command = "getHash"
 	//cHashMap     command = "hashMap"
 	//cGetBlock    command = "getBlock"

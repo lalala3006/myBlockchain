@@ -92,6 +92,23 @@ func paddedAppend(size uint, dst, src []byte) []byte {
 	return append(dst, src...)
 }
 
+//判断是否是有效的比特币地址
+func IsVaildBitcoinAddress(address string) bool {
+	adddressByte := []byte(address)
+	fullHash := util.Base58Decode(adddressByte)
+	if len(fullHash) != 25 {
+		return false
+	}
+	prefixHash := fullHash[:len(fullHash)-checkSum]
+	tailHash := fullHash[len(fullHash)-checkSum:]
+	tailHash2 := checkSumHash(prefixHash)
+	if bytes.Compare(tailHash, tailHash2[:]) == 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
 //通过公钥获得地址
 func (b *bitcoinKeys) getAddress() []byte {
 	//1.ripemd160(sha256(publickey))

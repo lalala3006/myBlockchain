@@ -3,10 +3,11 @@ package cli
 import (
 	"bufio"
 	"fmt"
+	log "github.com/corgi-kx/logcustom"
 	"myBlockchain/network"
 	"os"
+	"strconv"
 	"strings"
-	"time"
 )
 
 type Cli struct {
@@ -28,8 +29,9 @@ func printUsage() {
 	fmt.Println("Usage:")
 	fmt.Println("\thelp                                              打印命令行说明")
 	fmt.Println("\tgenerateWallet                                    创建新钱包")
+	fmt.Println("\tgenesis  -a DATA  -v DATA                         生成创世区块")
 	fmt.Println("\tquit                                              退出网络")
-	fmt.Println("\ttest                                              测试")
+	fmt.Println("\ttest -t TYPE                                      测试")
 	fmt.Println("------------------------------------------------------------------------------")
 }
 
@@ -51,20 +53,46 @@ func (cli Cli) ReceiveCMD() {
 func (cli Cli) userCmdHandle(data string) {
 	//去除命令前后空格
 	data = strings.TrimSpace(data)
-	switch data {
+	var cmd string
+	//var context string
+	if strings.Contains(data, " ") {
+		cmd = data[:strings.Index(data, " ")]
+		//context = data[strings.Index(data, " ")+1:]
+	} else {
+		cmd = data
+	}
+	switch cmd {
 	case "help":
 		printUsage()
 	case "generateWallet":
 		cli.generateWallet()
+	case "genesis":
+		address := getSpecifiedContent(data, "-a", "-v")
+		value := getSpecifiedContent(data, "-v", "")
+		v, err := strconv.Atoi(value)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cli.genesis(address, v)
 	case "quit":
-		network.Send{}.SendSignOutToPeers()
+		flag := network.Send{}.SendSignOutToPeers()
 		fmt.Println("本地节点已退出")
-		time.Sleep(time.Second)
-		os.Exit(0)
+		if flag {
+			os.Exit(0)
+		}
 	case "test":
-		cli.testCmd()
+		_type := getSpecifiedContent(data, "-t", "")
+		cli.testCmd(_type)
 	default:
 		fmt.Println("无此命令!")
 		printUsage()
 	}
+}
+
+//返回data字符串中,标签为tag的内容
+func getSpecifiedContent(data, tag, end string) string {
+	if end != "" {
+		return strings.TrimSpace(data[strings.Index(data, tag)+len(tag) : strings.Index(data, end)])
+	}
+	return strings.TrimSpace(data[strings.Index(data, tag)+len(tag):])
 }

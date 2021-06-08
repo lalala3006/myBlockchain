@@ -24,6 +24,7 @@ func init() {
 	listenPort := viper.GetString("network.listen_port")
 	rendezvousString := viper.GetString("network.rendezvous_string")
 	protocolID := viper.GetString("network.protocol_id")
+	mineDifficultyValue := viper.GetInt("blockchain.mine_difficulty_value")
 	chineseMnwordPath := viper.GetString("blockchain.chinese_mnemonic_path")
 
 	network.ListenHost = listenHost
@@ -33,6 +34,7 @@ func init() {
 
 	database.ListenPort = listenPort
 	block.ListenPort = listenPort
+	block.TargetBits = uint(mineDifficultyValue)
 	block.ChineseMnwordPath = chineseMnwordPath
 
 	//将日志输出到指定文件

@@ -11,13 +11,14 @@ type Send struct {
 }
 
 //向网络中其他节点发送本节点退出信号
-func (s Send) SendSignOutToPeers() {
+func (s Send) SendSignOutToPeers() bool {
 	ss := "节点:" + localAddr + "已退出网络"
 	m := myerror{ss, localAddr}
 	data := jointMessage(cMyError, m.serialize())
 	for _, v := range PeerPool {
 		s.SendMessage(v, data)
 	}
+	return true
 }
 
 //基础发送信息方法
@@ -51,4 +52,14 @@ func (Send) SendMessage(peer peer.AddrInfo, data []byte) {
 		}
 		log.Debugf("send cmd:%s to peer:%v", cmd, peer)
 	}
+}
+
+//向网络中其他节点发送高度信息
+func (s Send) SendVersionToPeers(lastHeight int) {
+	newV := version{versionInfo, lastHeight, localAddr}
+	data := jointMessage(cVersion, newV.serialize())
+	for _, v := range PeerPool {
+		s.SendMessage(v, data)
+	}
+	log.Trace("version信息发送完毕...")
 }

@@ -19,7 +19,7 @@ func (cli *Cli) generateWallet() {
 }
 
 // test命令显示数据库
-func (cli *Cli) testCmd() {
+func (cli *Cli) testCmd(bucketName string) {
 	var DBFileName = "blockchain_9001.db"
 	db, err := bolt.Open(DBFileName, 0600, nil)
 	if err != nil {
@@ -27,7 +27,7 @@ func (cli *Cli) testCmd() {
 	}
 	defer db.Close()
 
-	bucketName := database.AddrBucket
+	//bucketName := database.AddrBucket
 	err = db.View(func(tx *bolt.Tx) error {
 		bucket := tx.Bucket([]byte(bucketName))
 		if bucket == nil {

@@ -8,6 +8,7 @@ import (
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/multiformats/go-multiaddr"
+	"myBlockchain/block"
 	"os"
 	"os/signal"
 	"syscall"
@@ -49,6 +50,8 @@ func StartNode(clier Clier) {
 	go findP2PPeer()
 	//监测节点池,如果发现网络当中节点有变动则打印到屏幕
 	go monitorP2PNodes()
+	//启一个go程去向其他p2p节点发送高度信息，来进行更新区块数据
+	go sendVersionToPeers()
 	//启动程序的命令行输入环境
 	go clier.ReceiveCMD()
 
@@ -87,13 +90,28 @@ func monitorP2PNodes() {
 	}
 }
 
+//向其他p2p节点发送高度信息，来进行更新区块数据
+func sendVersionToPeers() {
+	//如果节点池中还未存在节点的话,一直循环 直到发现已连接节点
+	for {
+		if len(PeerPool) == 0 {
+			time.Sleep(time.Second)
+			continue
+		} else {
+			break
+		}
+	}
+	send.SendVersionToPeers(block.NewestBlockHeight)
+}
+
 //节点退出信号处理
 func signalHandle() {
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGPIPE)
 	<-sigs
-	send.SendSignOutToPeers()
+	flag := send.SendSignOutToPeers()
 	fmt.Println("本地节点已退出")
-	time.Sleep(time.Second)
-	os.Exit(0)
+	if flag {
+		os.Exit(0)
+	}
 }
